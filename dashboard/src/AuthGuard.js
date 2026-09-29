@@ -8,21 +8,12 @@ function AuthGuard({ children }) {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        // URL se token nikalo
-        const params = new URLSearchParams(
-          window.location.search
-        );
-
+        const params = new URLSearchParams(window.location.search);
         const tokenFromUrl = params.get("token");
 
-        // Agar login se token aaya hai
         if (tokenFromUrl) {
-          localStorage.setItem(
-            "authToken",
-            tokenFromUrl
-          );
+          localStorage.setItem("authToken", tokenFromUrl);
 
-          // URL se token remove
           window.history.replaceState(
             {},
             document.title,
@@ -30,22 +21,18 @@ function AuthGuard({ children }) {
           );
         }
 
-        // Token URL se ya localStorage se
         const token =
-          tokenFromUrl ||
-          localStorage.getItem("authToken");
+          tokenFromUrl || localStorage.getItem("authToken");
 
-        // Token nahi hai
         if (!token) {
           window.location.replace(
-            "http://localhost:3000/login"
+            "https://zerodha-stcokmarketfrontend.onrender.com/login"
           );
           return;
         }
 
-        // Backend se token verify
         await axios.get(
-          "http://localhost:3002/api/auth/verify",
+          "https://zerodha-stcokmarketbackend.onrender.com/api/auth/verify",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -53,19 +40,15 @@ function AuthGuard({ children }) {
           }
         );
 
-        // Authentication successful
         setAuthenticated(true);
       } catch (error) {
-        console.error(
-          "AUTHENTICATION ERROR:",
-          error
-        );
+        console.error("AUTHENTICATION ERROR:", error);
 
         localStorage.removeItem("authToken");
         localStorage.removeItem("user");
 
         window.location.replace(
-          "http://localhost:3000/login"
+          "https://zerodha-stcokmarketfrontend.onrender.com/login"
         );
       } finally {
         setChecking(false);
@@ -75,7 +58,6 @@ function AuthGuard({ children }) {
     checkAuthentication();
   }, []);
 
-  // Jab tak authentication check ho raha hai
   if (checking) {
     return (
       <div
@@ -92,12 +74,10 @@ function AuthGuard({ children }) {
     );
   }
 
-  // Login nahi hai
   if (!authenticated) {
     return null;
   }
 
-  // Login hai
   return children;
 }
 
