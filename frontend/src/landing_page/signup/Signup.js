@@ -21,7 +21,7 @@ function Signup() {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:3002/api/auth/signup", {
+      await axios.post("https://zerodha-stcokmarketbackend.onrender.com/api/auth/signup", {
         name,
         email,
         password,

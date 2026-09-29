@@ -13,9 +13,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3002/api/auth/login",
-        {
+      const response = await axios.post("https://zerodha-stcokmarketbackend.onrender.com/api/auth/login", {
           email: email.trim(),
           password: password,
         }
