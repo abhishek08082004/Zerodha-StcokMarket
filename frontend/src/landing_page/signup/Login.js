@@ -35,8 +35,9 @@ function Login() {
       // IMPORTANT:
       // Dashboard is on port 3001.
       // Token is passed once through URL.
-     window.location.replace(
-  `https://zerodha-stcokmarketdashboard.onrender.com/?token=${encodeURIComponent(
+      
+       window.location.replace(
+  `https://zerodha-stcokmarketdashboard1.onrender.com/?token=${encodeURIComponent(
     token
   )}`
 );
