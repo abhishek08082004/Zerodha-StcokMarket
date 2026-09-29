@@ -35,11 +35,11 @@ function Login() {
       // IMPORTANT:
       // Dashboard is on port 3001.
       // Token is passed once through URL.
-      window.location.replace(
-        `http://localhost:3001/?token=${encodeURIComponent(
-          token
-        )}`
-      );
+     window.location.replace(
+  `https://zerodha-stcokmarketdashboard.onrender.com/?token=${encodeURIComponent(
+    token
+  )}`
+);
     } catch (error) {
       console.error("LOGIN ERROR:", error);
 
