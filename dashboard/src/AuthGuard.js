@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,9 +12,11 @@ function AuthGuard({ children }) {
         const params = new URLSearchParams(window.location.search);
         const tokenFromUrl = params.get("token");
 
+        // Login se token aaya hai
         if (tokenFromUrl) {
           localStorage.setItem("authToken", tokenFromUrl);
 
+          // URL se token hata do
           window.history.replaceState(
             {},
             document.title,
@@ -21,9 +24,11 @@ function AuthGuard({ children }) {
           );
         }
 
+        // URL token ya saved token
         const token =
           tokenFromUrl || localStorage.getItem("authToken");
 
+        // Token nahi mila
         if (!token) {
           window.location.replace(
             "https://zerodha-stcokmarketfrontend.onrender.com/login"
@@ -31,7 +36,8 @@ function AuthGuard({ children }) {
           return;
         }
 
-        await axios.get(
+        // Backend se token verify
+        const response = await axios.get(
           "https://zerodha-stcokmarketbackend.onrender.com/api/auth/verify",
           {
             headers: {
@@ -40,11 +46,17 @@ function AuthGuard({ children }) {
           }
         );
 
+        console.log("AUTH SUCCESS:", response.data);
+
         setAuthenticated(true);
       } catch (error) {
-        console.error("AUTHENTICATION ERROR:", error);
+        console.error(
+          "AUTHENTICATION ERROR:",
+          error.response?.data || error.message
+        );
 
         localStorage.removeItem("authToken");
+        localStorage.removeItem("token");
         localStorage.removeItem("user");
 
         window.location.replace(
@@ -82,3 +94,4 @@ function AuthGuard({ children }) {
 }
 
 export default AuthGuard;
+
